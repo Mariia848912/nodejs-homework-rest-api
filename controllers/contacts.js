@@ -31,7 +31,6 @@ const removeContact = async (req, res) => {
 
 const updateContact = async (req, res) => {
   const { contactId } = req.params;
-
   const updateContact = await contacts.updateContact(contactId, req.body);
   if (!updateContact) {
     throw HttpError(404, "Not found");
