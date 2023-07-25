@@ -2,6 +2,10 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
+const emailRegExp =
+  /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
+const messageErrorEmailJoi =
+  'A valid email address has 4 parts: recipient name (John2), @ symbol, domain name (gmail), top-level domain (.com). For example: "John52@gmail.com".';
 
 const contactSchema = new Schema(
   {
@@ -11,6 +15,7 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
+      match: emailRegExp,
     },
     phone: {
       type: String,
@@ -18,6 +23,11 @@ const contactSchema = new Schema(
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
@@ -28,10 +38,15 @@ contactSchema.post("save", handleMongooseError); // якщо в contactSchema с
 const addSchema = Joi.object({
   name: Joi.string()
     .required()
+    .trim()
     .messages({ "any.required": "Missing required name field" }),
   email: Joi.string()
+    .pattern(new RegExp(emailRegExp))
     .required()
-    .messages({ "any.required": "Missing required email field" }),
+    .messages({
+      "any.required": "Missing required email field",
+      "string.pattern.base": `${messageErrorEmailJoi}`,
+    }),
   phone: Joi.string()
     .required()
     .messages({ "any.required": "Missing required phone field" }),

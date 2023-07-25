@@ -4,6 +4,8 @@ const cors = require("cors");
 const dotenv = require("dotenv"); // require("dotenv").config(); - можливо так написати
 // читає файл env і додає дані до process.env (змінні оточення )
 const contactsRouter = require("./routes/api/contacts");
+const authRouter = require("./routes/api/auth");
+
 const app = express(); // виклик функції express і є веб-сервіс
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -13,8 +15,9 @@ app.use(cors()); // це для того, щоб express не відмовлял
 
 app.use(express.json()); // ця middleware перевіряє чи є тіло в запиті.якщо є, то дивиться який по
 // заголовку Content-type, якщо json формат,  то робить express.json()
-
+app.use("/api/auth", authRouter);
 app.use("/api/contacts", contactsRouter);
+
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 }); // обробка помилок коли прийшов запит на не існуючий адрес
