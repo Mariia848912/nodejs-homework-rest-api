@@ -10,6 +10,7 @@ const emailRegExp =
 const messageErrorEmailJoi =
   'A valid email address has 4 parts: recipient name (John2), @ symbol, domain name (gmail), top-level domain (.com). For example: "John52@gmail.com".';
 const subscriptionTypes = ["starter", "pro", "business"];
+
 const userSchema = new Schema(
   {
     name: {
@@ -38,6 +39,10 @@ const userSchema = new Schema(
     token: {
       type: String,
       default: null,
+    },
+    avatarURL: {
+      type: String,
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
