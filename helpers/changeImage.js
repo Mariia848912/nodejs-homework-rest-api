@@ -1,0 +1,8 @@
+const Jimp = require("jimp");
+
+const changeImage = async (imagePath) => {
+  const image = await Jimp.read(imagePath);
+  await image.cover(250, 250).writeAsync(imagePath);
+};
+
+module.exports = changeImage;

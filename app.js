@@ -15,6 +15,7 @@ app.use(cors()); // це для того, щоб express не відмовлял
 
 app.use(express.json()); // ця middleware перевіряє чи є тіло в запиті.якщо є, то дивиться який по
 // заголовку Content-type, якщо json формат,  то робить express.json()
+app.use(express.static("public")); // якщо прийде запит за файлами, то візьме їх з папки public
 app.use("/api/auth", authRouter);
 app.use("/api/contacts", contactsRouter);
 
