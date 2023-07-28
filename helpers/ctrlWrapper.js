@@ -14,7 +14,5 @@ const ctrlWrapper = (ctrl) => {
 
 // коли в next передаэмо error, то express шукаэ обробник попилок.
 // ця функція с 4 ма параметрами в файлі app.js
-// module.exports = {
-//   ctrlWrapper,
-// };
+
 module.exports = ctrlWrapper;
